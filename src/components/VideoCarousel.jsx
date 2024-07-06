@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { hightlightsSlides } from '../constants/index'
+import { highlightsSlides } from '../constants/index'
 import gsap from 'gsap'
 import { pauseImg, playImg, replayImg } from '../utils'
 import { useGSAP } from '@gsap/react'
@@ -102,7 +102,7 @@ const VideoCarousel = () => {
             }
 
             const animUpdate = () => {
-                anim.progress(videoRef.current[videoId].currentTime / hightlightsSlides[videoId].videoDuration)
+                anim.progress(videoRef.current[videoId].currentTime / highlightsSlides[videoId].videoDuration)
             }
 
             if (isPlaying) {
@@ -147,7 +147,7 @@ const VideoCarousel = () => {
     return (
         <>
             <div className="flex items-center">
-                {hightlightsSlides.map((list, i) => (
+                {highlightsSlides.map((list, i) => (
                     <div key={list.id} id="slider" className="sm:pr-20 pr-10">
                         <div className="video-carousel_container">
                             <div className="w-full h-full flex-center rounded-3xl overflow-hidden bg-black">
