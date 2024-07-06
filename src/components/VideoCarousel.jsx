@@ -22,6 +22,13 @@ const VideoCarousel = () => {
     const [loadedData, setLoadedData] = useState([])
 
     useGSAP(() => {
+        gsap.to('#slider', {
+            transform: `translate(${-100 * videoId}%)`,
+            duration: 2,
+            ease: 'power2.inOut'
+        })
+
+
         gsap.to('#video', {
             scrollTrigger: {
                 trigger: '#video',
@@ -95,7 +102,7 @@ const VideoCarousel = () => {
             }
 
             const animUpdate = () => {
-                anim.progress(videoRef.current[videoId] / hightlightsSlides[videoId].videoDuration)
+                anim.progress(videoRef.current[videoId].currentTime / hightlightsSlides[videoId].videoDuration)
             }
 
             if (isPlaying) {
@@ -126,6 +133,10 @@ const VideoCarousel = () => {
                 setVideo((prev) => ({ ...prev, isPlaying: !prev.isPlaying }))
                 break;
 
+            case 'pause':
+                setVideo((prev) => ({ ...prev, isPlaying: !prev.isPlaying }))
+                break;
+
 
 
             default:
@@ -145,12 +156,18 @@ const VideoCarousel = () => {
                                     playsInline={true}
                                     preload='auto'
                                     muted
+                                    className={`${list.id === 2 && 'translate-x-44'
+                                        }
+                                    pointer-events-none`}
                                     ref={(el) => (videoRef.current[i] = el)}
                                     onPlay={() => {
                                         setVideo((prevVideo) => ({
                                             ...prevVideo, isPlaying: true
                                         }))
                                     }}
+                                    onEnded={() =>
+                                        i !== 3 ? handleProcess('video-end', i) : handleProcess('video-last')
+                                    }
                                     onLoadedMetadata={(e) => handleLoadedMetaData(i, e)}
                                 >
                                     <source src={list.video} type="video/mp4" />
